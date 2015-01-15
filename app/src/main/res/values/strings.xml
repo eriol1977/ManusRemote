@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Manus Remote</string>
+    <string name="title_activity_intercoms">Interfones</string>
+    <string name="title_activity_cameras">Cameras</string>
+    <string name="title_activity_intercom_config">Interfone</string>
+    <string name="title_activity_intercom_create">IntercomCreate</string>
+    <string name="title_activity_intercom_remote">IntercomRemote</string>
+    <string name="delete_intercom">Excluir interfone?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="cameras">Cameras</string>
+    <string name="name">Nome:</string>
+    <string name="ip">Ip:</string>
+    <string name="port">Porta:</string>
+    <string name="username">Nome usuário:</string>
+    <string name="password">Senha:</string>
+    <string name="exampleName">Casa 4</string>
+    <string name="exampleIp">187.254.34.2</string>
+    <string name="examplePort">8081</string>
+    <string name="exampleUsername">manus</string>
+    <string name="examplePassword">12345</string>
+    <string name="ringTimeout">Ring timeout:</string>
+    <string name="intercomsUppercase">INTERFONES</string>
+    <string name="camerasUppercase">CAMERAS</string>
+    <string name="save">Salvar</string>
+    <string name="remoteManaging">Gerenciamento remoto</string>
+    <string name="delete">Excluir</string>
+    <string name="create">Criar</string>
+    <string name="validation_field_required">Campo obrigatório</string>
+    <string name="validation_wrong_format">Verifique o formato</string>
+    <string name="validation_port">Deve ser número menor do que 65536</string>
+    <string name="validation_ring_timeout">Deve ser número</string>
+    <string name="validation_whitespace">Não pode conter espaços</string>
+</resources>
