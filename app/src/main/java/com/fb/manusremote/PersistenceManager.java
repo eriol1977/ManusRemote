@@ -34,7 +34,7 @@ public class PersistenceManager {
     public static void addIntercom(String name, String ip, String port, String username, String password, final SharedPreferences preferences) {
         final SharedPreferences.Editor editor = preferences.edit();
         String intercomsString = preferences.getString(INTERCOMS, "");
-        if(!intercomsString.isEmpty())
+        if (!intercomsString.isEmpty())
             intercomsString += NAME_SEPARATOR;
         intercomsString += name;
         editor.putString(INTERCOMS, intercomsString);
@@ -47,20 +47,25 @@ public class PersistenceManager {
         String intercomsString = preferences.getString(INTERCOMS, "");
         final String[] intercomNames = intercomsString.split(NAME_SEPARATOR);
         String newIntercomsString = "";
-        for(final String intercomName: intercomNames) {
-            if(!intercomName.equals(name))
+        for (final String intercomName : intercomNames) {
+            if (!intercomName.equals(name))
                 newIntercomsString += intercomName + NAME_SEPARATOR;
         }
-        if(!newIntercomsString.isEmpty())
-            newIntercomsString = newIntercomsString.substring(0, newIntercomsString.length()-1);
+        if (!newIntercomsString.isEmpty())
+            newIntercomsString = newIntercomsString.substring(0, newIntercomsString.length() - 1);
         editor.putString(INTERCOMS, newIntercomsString);
         editor.remove(name);
         editor.commit();
     }
 
-    public static void updateIntercom(String name, String ip, String port, String username, String password, SharedPreferences preferences) {
+    public static void updateIntercom(String oldName, String name, String ip, String port, String username, String password, SharedPreferences preferences) {
         final SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(name, new Intercom(name, ip, port, username, password).toSaveFormat());
-        editor.commit();
+        if (oldName != name) {
+            removeIntercom(oldName, preferences);
+            addIntercom(name, ip, port, username, password, preferences);
+        } else {
+            editor.putString(name, new Intercom(name, ip, port, username, password).toSaveFormat());
+            editor.commit();
+        }
     }
 }

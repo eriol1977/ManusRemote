@@ -21,12 +21,15 @@ public class IntercomConfig extends IntercomAbstractActivity {
 
     private Intercom intercom;
 
+    private String oldName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         intercom = (Intercom) getIntent().getSerializableExtra(INTERCOM);
         if (intercom != null) {
+            oldName = intercom.getName();
             nameField.setText(intercom.getName());
             ipField.setText(intercom.getIp());
             portField.setText(intercom.getPort());
@@ -56,7 +59,7 @@ public class IntercomConfig extends IntercomAbstractActivity {
                 final String port = portField.getText().toString();
                 final String username = usernameField.getText().toString();
                 final String password = passwordField.getText().toString();
-                PersistenceManager.updateIntercom(name, ip, port, username, password,
+                PersistenceManager.updateIntercom(oldName,name, ip, port, username, password,
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
                 NavUtils.navigateUpFromSameTask(IntercomConfig.this);
                 return true;
