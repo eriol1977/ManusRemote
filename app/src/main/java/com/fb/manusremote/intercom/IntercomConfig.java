@@ -7,10 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 
 import com.fb.manusremote.PersistenceManager;
 import com.fb.manusremote.R;
@@ -26,26 +24,14 @@ public class IntercomConfig extends IntercomAbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_intercom_config);
-
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         intercom = (Intercom) getIntent().getSerializableExtra(INTERCOM);
         if (intercom != null) {
-            final EditText intercomNameEdit = (EditText) findViewById(R.id.intercomNameEdit);
-            intercomNameEdit.setText(intercom.getName());
-
-            final EditText intercomIpEdit = (EditText) findViewById(R.id.intercomIpEdit);
-            intercomIpEdit.setText(intercom.getIp());
-
-            final EditText intercomPortEdit = (EditText) findViewById(R.id.intercomPortEdit);
-            intercomPortEdit.setText(intercom.getPort());
-
-            final EditText intercomUsernameEdit = (EditText) findViewById(R.id.intercomUsernameEdit);
-            intercomUsernameEdit.setText(intercom.getUsername());
-
-            final EditText intercomPasswordEdit = (EditText) findViewById(R.id.intercomPasswordEdit);
-            intercomPasswordEdit.setText(intercom.getPassword());
+            nameField.setText(intercom.getName());
+            ipField.setText(intercom.getIp());
+            portField.setText(intercom.getPort());
+            usernameField.setText(intercom.getUsername());
+            passwordField.setText(intercom.getPassword());
         }
     }
 
@@ -65,11 +51,11 @@ public class IntercomConfig extends IntercomAbstractActivity {
             return true;
         } else if (id == R.id.action_save_intercom) {
             if (validateForm()) {
-                final String name = ((EditText) findViewById(R.id.intercomNameEdit)).getText().toString();
-                final String ip = ((EditText) findViewById(R.id.intercomIpEdit)).getText().toString();
-                final String port = ((EditText) findViewById(R.id.intercomPortEdit)).getText().toString();
-                final String username = ((EditText) findViewById(R.id.intercomUsernameEdit)).getText().toString();
-                final String password = ((EditText) findViewById(R.id.intercomPasswordEdit)).getText().toString();
+                final String name = nameField.getText().toString();
+                final String ip = ipField.getText().toString();
+                final String port = portField.getText().toString();
+                final String username = usernameField.getText().toString();
+                final String password = passwordField.getText().toString();
                 PersistenceManager.updateIntercom(name, ip, port, username, password,
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
                 NavUtils.navigateUpFromSameTask(IntercomConfig.this);
@@ -92,7 +78,7 @@ public class IntercomConfig extends IntercomAbstractActivity {
         builder.setMessage(getResources().getString(R.string.delete_intercom))
                 .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        final String name = ((EditText) findViewById(R.id.intercomNameEdit)).getText().toString();
+                        final String name = nameField.getText().toString();
                         PersistenceManager.removeIntercom(name, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
                         NavUtils.navigateUpFromSameTask(IntercomConfig.this);
                     }

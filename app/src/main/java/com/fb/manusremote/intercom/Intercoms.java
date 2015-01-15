@@ -24,6 +24,8 @@ public class Intercoms extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intercoms);
 
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+
         final ListView listIntercoms = (ListView) findViewById(R.id.listIntercoms);
         final List<Intercom> intercoms = PersistenceManager.loadIntercoms(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
         listIntercoms.setAdapter(new IntercomListArrayAdapterItem(this, R.layout.intercoms_list_row, intercoms));

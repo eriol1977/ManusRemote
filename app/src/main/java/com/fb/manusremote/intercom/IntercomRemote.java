@@ -5,6 +5,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 
 import com.fb.manusremote.R;
@@ -15,18 +16,30 @@ import com.fb.manusremote.model.Validator;
 
 public class IntercomRemote extends ActionBarActivity {
 
+    private Intercom intercom;
+    private EditText ringTimeoutField;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intercom_remote);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
 
-        final Intercom intercom = (Intercom) getIntent().getSerializableExtra(IntercomConfig.INTERCOM);
+        ringTimeoutField = (EditText) findViewById(R.id.intercomRingTimeoutEdit);
+        ringTimeoutField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    validateRingTimeout();
+                }
+            }
+        });
+
+        intercom = (Intercom) getIntent().getSerializableExtra(IntercomConfig.INTERCOM);
         if (intercom != null) {
             final IntercomRemoteData remoteData = RemoteManager.loadIntercomRemoteData(intercom);
-            final EditText ringTimeout = (EditText) findViewById(R.id.intercomRingTimeoutEdit);
-            ringTimeout.setText(remoteData.getRingTimeout());
+            ringTimeoutField.setText(remoteData.getRingTimeout());
         }
     }
 
@@ -54,7 +67,10 @@ public class IntercomRemote extends ActionBarActivity {
     }
 
     private boolean validateForm() {
-        final EditText ringTimeoutField = (EditText) findViewById(R.id.intercomRingTimeoutEdit);
+        return validateRingTimeout();
+    }
+
+    private boolean validateRingTimeout() {
         final String ringTimeout = ringTimeoutField.getText().toString();
         String message = Validator.validateRingTimeout(ringTimeout, this);
         if (!message.isEmpty()) {
@@ -63,7 +79,6 @@ public class IntercomRemote extends ActionBarActivity {
         } else {
             ringTimeoutField.setError(null);
         }
-
         return true;
     }
 }
