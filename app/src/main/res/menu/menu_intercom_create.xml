@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.fb.manusremote.intercom.IntercomCreate">
+    tools:context="com.fb.manusremote.intercom.view.IntercomCreate">
     <item android:id="@+id/action_save_intercom"
         android:title="@string/save"
         android:icon="@drawable/ic_ok"

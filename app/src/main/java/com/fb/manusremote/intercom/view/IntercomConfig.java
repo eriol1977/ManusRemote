@@ -1,4 +1,4 @@
-package com.fb.manusremote.intercom;
+package com.fb.manusremote.intercom.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,12 +10,13 @@ import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.fb.manusremote.PersistenceManager;
+import com.fb.manusremote.infra.PersistenceManager;
 import com.fb.manusremote.R;
-import com.fb.manusremote.model.Intercom;
+import com.fb.manusremote.view.VOIPConfigAbstractActivity;
+import com.fb.manusremote.intercom.model.Intercom;
 
 
-public class IntercomConfig extends IntercomAbstractActivity {
+public class IntercomConfig extends VOIPConfigAbstractActivity {
 
     public static final String INTERCOM = "intercom";
 

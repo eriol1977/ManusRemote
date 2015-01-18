@@ -1,8 +1,8 @@
-package com.fb.manusremote;
+package com.fb.manusremote.infra;
 
 import android.content.SharedPreferences;
 
-import com.fb.manusremote.model.Intercom;
+import com.fb.manusremote.intercom.model.Intercom;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,8 @@ public class PersistenceManager {
     public final static String INTERCOMS = "intercoms";
 
     private final static String NAME_SEPARATOR = ",";
+
+    private final static String INTERCOM_PREFIX = "ic_";
 
     public static List<Intercom> loadIntercoms(final SharedPreferences preferences) {
         final List<Intercom> intercoms = new ArrayList<>();
@@ -32,39 +34,42 @@ public class PersistenceManager {
     }
 
     public static void addIntercom(String name, String ip, String port, String username, String password, final SharedPreferences preferences) {
+        final String saveName = INTERCOM_PREFIX + name;
         final SharedPreferences.Editor editor = preferences.edit();
         String intercomsString = preferences.getString(INTERCOMS, "");
         if (!intercomsString.isEmpty())
             intercomsString += NAME_SEPARATOR;
-        intercomsString += name;
+        intercomsString += saveName;
         editor.putString(INTERCOMS, intercomsString);
-        editor.putString(name, new Intercom(name, ip, port, username, password).toSaveFormat());
+        editor.putString(saveName, new Intercom(name, ip, port, username, password).toSaveFormat());
         editor.commit();
     }
 
     public static void removeIntercom(final String name, final SharedPreferences preferences) {
+        final String saveName = INTERCOM_PREFIX + name;
         final SharedPreferences.Editor editor = preferences.edit();
         String intercomsString = preferences.getString(INTERCOMS, "");
         final String[] intercomNames = intercomsString.split(NAME_SEPARATOR);
         String newIntercomsString = "";
         for (final String intercomName : intercomNames) {
-            if (!intercomName.equals(name))
+            if (!intercomName.equals(saveName))
                 newIntercomsString += intercomName + NAME_SEPARATOR;
         }
         if (!newIntercomsString.isEmpty())
             newIntercomsString = newIntercomsString.substring(0, newIntercomsString.length() - 1);
         editor.putString(INTERCOMS, newIntercomsString);
-        editor.remove(name);
+        editor.remove(saveName);
         editor.commit();
     }
 
-    public static void updateIntercom(String oldName, String name, String ip, String port, String username, String password, SharedPreferences preferences) {
+    public static void updateIntercom(String oldName, String name, String ip, String port,
+                                      String username, String password, SharedPreferences preferences) {
         final SharedPreferences.Editor editor = preferences.edit();
         if (oldName != name) {
             removeIntercom(oldName, preferences);
             addIntercom(name, ip, port, username, password, preferences);
         } else {
-            editor.putString(name, new Intercom(name, ip, port, username, password).toSaveFormat());
+            editor.putString(INTERCOM_PREFIX + name, new Intercom(name, ip, port, username, password).toSaveFormat());
             editor.commit();
         }
     }

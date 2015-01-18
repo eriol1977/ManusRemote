@@ -1,9 +1,11 @@
-package com.fb.manusremote;
+package com.fb.manusremote.camera.view;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.fb.manusremote.R;
 
 
 public class Cameras extends ActionBarActivity {

@@ -1,4 +1,4 @@
-package com.fb.manusremote.intercom;
+package com.fb.manusremote.view;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -11,7 +11,7 @@ import com.fb.manusremote.model.Validator;
 /**
  * Created by Francesco on 15/01/2015.
  */
-public class IntercomAbstractActivity extends ActionBarActivity {
+public class VOIPConfigAbstractActivity extends ActionBarActivity {
 
     protected EditText nameField;
     protected EditText ipField;
@@ -21,7 +21,7 @@ public class IntercomAbstractActivity extends ActionBarActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_intercom_config);
+        setContentView(R.layout.activity_voip_config);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);

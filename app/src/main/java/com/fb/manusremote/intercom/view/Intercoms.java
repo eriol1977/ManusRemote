@@ -1,4 +1,4 @@
-package com.fb.manusremote.intercom;
+package com.fb.manusremote.intercom.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-import com.fb.manusremote.PersistenceManager;
+import com.fb.manusremote.infra.PersistenceManager;
 import com.fb.manusremote.R;
-import com.fb.manusremote.model.Intercom;
+import com.fb.manusremote.intercom.model.Intercom;
 
 import java.util.List;
 

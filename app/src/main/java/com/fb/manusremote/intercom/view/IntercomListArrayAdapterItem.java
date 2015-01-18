@@ -1,4 +1,4 @@
-package com.fb.manusremote.intercom;
+package com.fb.manusremote.intercom.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.fb.manusremote.R;
-import com.fb.manusremote.model.Intercom;
+import com.fb.manusremote.intercom.model.Intercom;
 
 import java.util.List;
 

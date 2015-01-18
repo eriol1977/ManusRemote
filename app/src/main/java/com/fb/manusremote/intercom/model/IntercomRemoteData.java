@@ -1,4 +1,4 @@
-package com.fb.manusremote.model;
+package com.fb.manusremote.intercom.model;
 
 /**
  * Created by Francesco on 15/01/2015.

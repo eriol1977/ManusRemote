@@ -1,7 +1,7 @@
-package com.fb.manusremote;
+package com.fb.manusremote.infra;
 
-import com.fb.manusremote.model.Intercom;
-import com.fb.manusremote.model.IntercomRemoteData;
+import com.fb.manusremote.intercom.model.Intercom;
+import com.fb.manusremote.intercom.model.IntercomRemoteData;
 
 /**
  * Created by Francesco on 15/01/2015.

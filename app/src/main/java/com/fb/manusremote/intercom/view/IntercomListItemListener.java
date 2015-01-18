@@ -1,11 +1,11 @@
-package com.fb.manusremote.intercom;
+package com.fb.manusremote.intercom.view;
 
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.fb.manusremote.model.Intercom;
+import com.fb.manusremote.intercom.model.Intercom;
 
 /**
  * Created by Francesco on 14/01/2015.

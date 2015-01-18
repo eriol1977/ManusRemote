@@ -1,4 +1,7 @@
-package com.fb.manusremote.model;
+package com.fb.manusremote.intercom.model;
+
+import com.fb.manusremote.model.AdapterKind;
+import com.fb.manusremote.model.VOIPAdapter;
 
 /**
  * Created by Francesco on 14/01/2015.
@@ -17,6 +20,5 @@ public class Intercom extends VOIPAdapter {
     public AdapterKind getKind() {
         return AdapterKind.INTERCOM;
     }
-
 
 }

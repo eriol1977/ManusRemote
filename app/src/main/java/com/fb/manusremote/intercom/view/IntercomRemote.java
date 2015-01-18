@@ -1,4 +1,4 @@
-package com.fb.manusremote.intercom;
+package com.fb.manusremote.intercom.view;
 
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -9,9 +9,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.fb.manusremote.R;
-import com.fb.manusremote.RemoteManager;
-import com.fb.manusremote.model.Intercom;
-import com.fb.manusremote.model.IntercomRemoteData;
+import com.fb.manusremote.infra.RemoteManager;
+import com.fb.manusremote.intercom.model.Intercom;
+import com.fb.manusremote.intercom.model.IntercomRemoteData;
 import com.fb.manusremote.model.Validator;
 
 public class IntercomRemote extends ActionBarActivity {
