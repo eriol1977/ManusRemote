@@ -6,17 +6,17 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Intercom name here..."
+        android:text="Voip name here..."
         android:textSize="20dp"
-        android:id="@+id/intercomListName"
+        android:id="@+id/voipListName"
         android:layout_alignParentTop="true"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Intercom ip:port here..."
-        android:id="@+id/intercomListIp"
-        android:layout_below="@+id/intercomListName"
+        android:text="Voip ip:port here..."
+        android:id="@+id/voipListIp"
+        android:layout_below="@+id/voipListName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 </RelativeLayout>

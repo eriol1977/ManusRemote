@@ -8,9 +8,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-import com.fb.manusremote.infra.PersistenceManager;
 import com.fb.manusremote.R;
-import com.fb.manusremote.intercom.model.Intercom;
+import com.fb.manusremote.infra.PersistenceManager;
+import com.fb.manusremote.model.VOIPAdapter;
+import com.fb.manusremote.view.VOIPListArrayAdapterItem;
 
 import java.util.List;
 
@@ -27,14 +28,15 @@ public class Intercoms extends ActionBarActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
 
         final ListView listIntercoms = (ListView) findViewById(R.id.listIntercoms);
-        final List<Intercom> intercoms = PersistenceManager.loadIntercoms(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-        listIntercoms.setAdapter(new IntercomListArrayAdapterItem(this, R.layout.intercoms_list_row, intercoms));
+        final List<VOIPAdapter> intercoms =
+                PersistenceManager.loadIntercoms(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
+        listIntercoms.setAdapter(new VOIPListArrayAdapterItem(this, R.layout.voip_list_row, intercoms));
         listIntercoms.setOnItemClickListener(new IntercomListItemListener());
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_intercoms, menu);
+        getMenuInflater().inflate(R.menu.menu_voip_list, menu);
         return true;
     }
 
@@ -42,7 +44,7 @@ public class Intercoms extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_add_intercom) {
+        if (id == R.id.action_add_voip) {
             final Intent intent = new Intent();
             intent.setClass(this, IntercomCreate.class);
             startActivity(intent);

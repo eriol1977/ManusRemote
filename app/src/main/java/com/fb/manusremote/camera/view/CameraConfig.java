@@ -1,4 +1,4 @@
-package com.fb.manusremote.intercom.view;
+package com.fb.manusremote.camera.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,17 +10,17 @@ import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.fb.manusremote.infra.PersistenceManager;
 import com.fb.manusremote.R;
+import com.fb.manusremote.camera.model.Camera;
+import com.fb.manusremote.infra.PersistenceManager;
 import com.fb.manusremote.view.VOIPConfigAbstractActivity;
-import com.fb.manusremote.intercom.model.Intercom;
 
 
-public class IntercomConfig extends VOIPConfigAbstractActivity {
+public class CameraConfig extends VOIPConfigAbstractActivity {
 
-    public static final String INTERCOM = "intercom";
+    public static final String CAMERA = "camera";
 
-    private Intercom intercom;
+    private Camera camera;
 
     private String oldName;
 
@@ -28,14 +28,14 @@ public class IntercomConfig extends VOIPConfigAbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        intercom = (Intercom) getIntent().getSerializableExtra(INTERCOM);
-        if (intercom != null) {
-            oldName = intercom.getName();
-            nameField.setText(intercom.getName());
-            ipField.setText(intercom.getIp());
-            portField.setText(intercom.getPort());
-            usernameField.setText(intercom.getUsername());
-            passwordField.setText(intercom.getPassword());
+        camera = (Camera) getIntent().getSerializableExtra(CAMERA);
+        if (camera != null) {
+            oldName = camera.getName();
+            nameField.setText(camera.getName());
+            ipField.setText(camera.getIp());
+            portField.setText(camera.getPort());
+            usernameField.setText(camera.getUsername());
+            passwordField.setText(camera.getPassword());
         }
     }
 
@@ -60,15 +60,15 @@ public class IntercomConfig extends VOIPConfigAbstractActivity {
                 final String port = portField.getText().toString();
                 final String username = usernameField.getText().toString();
                 final String password = passwordField.getText().toString();
-                PersistenceManager.updateIntercom(oldName,name, ip, port, username, password,
+                PersistenceManager.updateCamera(oldName, name, ip, port, username, password,
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-                NavUtils.navigateUpFromSameTask(IntercomConfig.this);
+                NavUtils.navigateUpFromSameTask(CameraConfig.this);
                 return true;
             }
         } else if (id == R.id.action_config_voip) {
             final Intent intent = new Intent();
-            intent.setClass(this, IntercomRemote.class);
-            intent.putExtra(INTERCOM, intercom);
+            intent.setClass(this, CameraRemote.class);
+            intent.putExtra(CAMERA, camera);
             startActivity(intent);
             return true;
         }
@@ -79,12 +79,12 @@ public class IntercomConfig extends VOIPConfigAbstractActivity {
     private Dialog createDeleteDialog() {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getResources().getString(R.string.delete_intercom))
+        builder.setMessage(getResources().getString(R.string.delete_camera))
                 .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         final String name = nameField.getText().toString();
-                        PersistenceManager.removeIntercom(name, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-                        NavUtils.navigateUpFromSameTask(IntercomConfig.this);
+                        PersistenceManager.removeCamera(name, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
+                        NavUtils.navigateUpFromSameTask(CameraConfig.this);
                     }
                 })
                 .setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {

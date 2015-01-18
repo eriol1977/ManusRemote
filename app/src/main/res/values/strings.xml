@@ -3,11 +3,15 @@
 
     <string name="app_name">Manus Remote</string>
     <string name="title_activity_intercoms">Interfones</string>
-    <string name="title_activity_cameras">Cameras</string>
     <string name="title_activity_intercom_config">Interfone</string>
     <string name="title_activity_intercom_create">IntercomCreate</string>
     <string name="title_activity_intercom_remote">IntercomRemote</string>
+    <string name="title_activity_cameras">Cameras</string>
+    <string name="title_activity_camera_config">Camera</string>
+    <string name="title_activity_camera_create">CameraCreate</string>
+    <string name="title_activity_camera_remote">CameraRemote</string>
     <string name="delete_intercom">Excluir interfone?</string>
+    <string name="delete_camera">Excluir camera?</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
     <string name="cameras">Cameras</string>

@@ -38,8 +38,6 @@ public class Main extends Activity {
                 startActivity(camerasIntent);
             }
         });
-        btnCameras.setEnabled(false);
-
 
         final Button btnTest = (Button) findViewById(R.id.btnTest);
         btnTest.setOnClickListener(new View.OnClickListener() {

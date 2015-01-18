@@ -1,4 +1,4 @@
-package com.fb.manusremote.intercom.view;
+package com.fb.manusremote.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,20 +9,22 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.fb.manusremote.R;
-import com.fb.manusremote.intercom.model.Intercom;
+import com.fb.manusremote.model.VOIPAdapter;
 
 import java.util.List;
 
 /**
  * Created by Francesco on 14/01/2015.
  */
-public class IntercomListArrayAdapterItem extends ArrayAdapter<Intercom> {
+public class VOIPListArrayAdapterItem extends ArrayAdapter<VOIPAdapter> {
 
-    Context mContext;
-    int layoutResourceId;
-    List<Intercom> data;
+    final Context mContext;
 
-    public IntercomListArrayAdapterItem(Context mContext, int layoutResourceId, List<Intercom> data) {
+    final int layoutResourceId;
+
+    final List<VOIPAdapter> data;
+
+    public VOIPListArrayAdapterItem(Context mContext, int layoutResourceId, List<VOIPAdapter> data) {
 
         super(mContext, layoutResourceId, data);
 
@@ -47,14 +49,14 @@ public class IntercomListArrayAdapterItem extends ArrayAdapter<Intercom> {
         }
 
         // object item based on the position
-        Intercom intercom = data.get(position);
+        VOIPAdapter voipAdapter = data.get(position);
 
         // get the TextView and then set the text (item name) and tag (item ID) values
-        TextView textViewName = (TextView) convertView.findViewById(R.id.intercomListName);
-        textViewName.setText(intercom.getName());
+        TextView textViewName = (TextView) convertView.findViewById(R.id.voipListName);
+        textViewName.setText(voipAdapter.getName());
 
-        TextView textViewIp = (TextView) convertView.findViewById(R.id.intercomListIp);
-        textViewIp.setText(intercom.getIp() + ":" + intercom.getPort());
+        TextView textViewIp = (TextView) convertView.findViewById(R.id.voipListIp);
+        textViewIp.setText(voipAdapter.getIp() + ":" + voipAdapter.getPort());
 
         return convertView;
 

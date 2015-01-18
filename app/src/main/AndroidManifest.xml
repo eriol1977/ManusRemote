@@ -13,10 +13,10 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- INTERCOMS -->
         <activity
             android:name=".intercom.view.Intercoms"
             android:label="@string/title_activity_intercoms"
@@ -26,10 +26,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.Main" />
-        </activity>
-        <activity
-            android:name=".camera.view.Cameras"
-            android:label="@string/title_activity_cameras" >
         </activity>
         <activity
             android:name=".intercom.view.IntercomConfig"
@@ -48,7 +44,10 @@
             android:label="@string/title_activity_intercom_create"
             android:parentActivityName=".intercom.view.Intercoms"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" >
+            android:theme="@style/Theme.AppCompat.Light">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".intercom.view.Intercoms" />
         </activity>
         <activity
             android:name=".intercom.view.IntercomRemote"
@@ -57,6 +56,53 @@
             android:parentActivityName=".intercom.view.IntercomConfig"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".intercom.view.IntercomConfig" />
+        </activity>
+        <!-- CAMERAS -->
+        <activity
+            android:name=".camera.view.Cameras"
+            android:label="@string/title_activity_cameras"
+            android:parentActivityName=".view.Main"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.Main" />
+        </activity>
+        <activity
+            android:name=".camera.view.CameraConfig"
+            android:label="@string/title_activity_camera_config"
+            android:parentActivityName=".camera.view.Cameras"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            android:theme="@style/Theme.AppCompat.Light"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".camera.view.Cameras" />
+        </activity>
+        <activity
+            android:name=".camera.view.CameraCreate"
+            android:label="@string/title_activity_camera_create"
+            android:parentActivityName=".camera.view.Cameras"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".camera.view.Cameras" />
+        </activity>
+        <activity
+            android:name=".camera.view.CameraRemote"
+            android:label="@string/title_activity_camera_remote"
+            android:windowSoftInputMode="stateHidden"
+            android:parentActivityName=".camera.view.CameraConfig"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".camera.view.CameraConfig" />
         </activity>
     </application>
 

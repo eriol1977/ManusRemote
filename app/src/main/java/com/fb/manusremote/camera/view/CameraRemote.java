@@ -1,4 +1,4 @@
-package com.fb.manusremote.intercom.view;
+package com.fb.manusremote.camera.view;
 
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -9,20 +9,24 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.fb.manusremote.R;
+import com.fb.manusremote.camera.model.Camera;
+import com.fb.manusremote.camera.model.CameraRemoteData;
 import com.fb.manusremote.infra.RemoteManager;
 import com.fb.manusremote.intercom.model.Intercom;
 import com.fb.manusremote.intercom.model.IntercomRemoteData;
+import com.fb.manusremote.intercom.view.IntercomConfig;
 import com.fb.manusremote.model.Validator;
 
-public class IntercomRemote extends ActionBarActivity {
+public class CameraRemote extends ActionBarActivity {
 
-    private Intercom intercom;
+    private Camera camera;
+
     private EditText ringTimeoutField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_intercom_remote);
+        setContentView(R.layout.activity_camera_remote);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
@@ -36,9 +40,9 @@ public class IntercomRemote extends ActionBarActivity {
             }
         });
 
-        intercom = (Intercom) getIntent().getSerializableExtra(IntercomConfig.INTERCOM);
-        if (intercom != null) {
-            final IntercomRemoteData remoteData = RemoteManager.loadIntercomRemoteData(intercom);
+        camera = (Camera) getIntent().getSerializableExtra(CameraConfig.CAMERA);
+        if (camera != null) {
+            final CameraRemoteData remoteData = RemoteManager.loadCameraRemoteData(camera);
             ringTimeoutField.setText(remoteData.getRingTimeout());
         }
     }
@@ -57,7 +61,7 @@ public class IntercomRemote extends ActionBarActivity {
         if (id == R.id.action_save_voip) {
             if (validateForm()) {
                 final String ringTimeout = ((EditText) findViewById(R.id.intercomRingTimeoutEdit)).getText().toString();
-                RemoteManager.saveIntercomRemoteData(ringTimeout);
+                RemoteManager.saveCameraRemoteData(ringTimeout);
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             }
