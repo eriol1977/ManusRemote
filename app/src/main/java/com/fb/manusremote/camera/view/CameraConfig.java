@@ -2,6 +2,7 @@ package com.fb.manusremote.camera.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,7 +43,7 @@ public class CameraConfig extends VOIPConfigAbstractActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_voip_config, menu);
+        getMenuInflater().inflate(R.menu.menu_camera_config, menu);
         return true;
     }
 
@@ -71,6 +72,15 @@ public class CameraConfig extends VOIPConfigAbstractActivity {
             intent.putExtra(CAMERA, camera);
             startActivity(intent);
             return true;
+        } else if (id == R.id.action_view_camera) {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            ComponentName cn = new ComponentName("com.rcreations.ipcamviewer", "com.rcreations.ipcamviewer.WebCamViewerActivity");
+            intent.setComponent(cn);
+            intent.putExtra("selectView", "GALLERY_VIEW");
+            intent.putExtra("selectCameraName", camera.getName());
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

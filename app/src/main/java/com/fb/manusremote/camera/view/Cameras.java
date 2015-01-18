@@ -1,5 +1,6 @@
 package com.fb.manusremote.camera.view;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -9,12 +10,9 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.fb.manusremote.R;
-import com.fb.manusremote.camera.model.Camera;
 import com.fb.manusremote.infra.PersistenceManager;
-import com.fb.manusremote.intercom.view.IntercomCreate;
 import com.fb.manusremote.model.VOIPAdapter;
 import com.fb.manusremote.view.VOIPListArrayAdapterItem;
-import com.fb.manusremote.intercom.view.IntercomListItemListener;
 
 import java.util.List;
 
@@ -37,8 +35,7 @@ public class Cameras extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_voip_list, menu);
+        getMenuInflater().inflate(R.menu.menu_camera_list, menu);
         return true;
     }
 
@@ -51,6 +48,14 @@ public class Cameras extends ActionBarActivity {
             intent.setClass(this, CameraCreate.class);
             startActivity(intent);
             return true;
+        } else if (id == R.id.action_view_camera) {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            ComponentName cn = new ComponentName("com.rcreations.ipcamviewer", "com.rcreations.ipcamviewer.WebCamViewerActivity");
+            intent.setComponent(cn);
+            intent.putExtra("selectView", "MATRIX_VIEW");
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

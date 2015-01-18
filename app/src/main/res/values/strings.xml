@@ -37,4 +37,5 @@
     <string name="validation_port">Deve ser número menor do que 65536</string>
     <string name="validation_ring_timeout">Deve ser número</string>
     <string name="validation_whitespace">Não pode conter espaços</string>
+    <string name="access_cameras">Acessar cameras</string>
 </resources>

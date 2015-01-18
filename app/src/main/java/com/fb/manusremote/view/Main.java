@@ -39,21 +39,6 @@ public class Main extends Activity {
             }
         });
 
-        final Button btnTest = (Button) findViewById(R.id.btnTest);
-        btnTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent( Intent.ACTION_MAIN );
-                intent.addCategory( Intent.CATEGORY_LAUNCHER );
-                intent.setFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
-                ComponentName cn = new ComponentName( "com.rcreations.ipcamviewer", "com.rcreations.ipcamviewer.WebCamViewerActivity" );
-                intent.setComponent(cn);
-                //intent.putExtra("selectView", "MATRIX_VIEW" );
-                intent.putExtra("selectView", "GALLERY_VIEW" );
-                intent.putExtra("selectCameraName", "Mauro" );
-                startActivity( intent );
-            }
-        });
     }
 
 }

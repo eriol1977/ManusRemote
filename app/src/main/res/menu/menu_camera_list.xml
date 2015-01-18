@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context="com.fb.manusremote.intercom.view.Intercoms">
+    <item android:id="@+id/action_view_camera"
+        android:title="@string/access_cameras"
+        android:icon="@drawable/ic_camera"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+    <item android:id="@+id/action_add_voip"
+        android:title="@string/create"
+        android:icon="@drawable/ic_add"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+</menu>
