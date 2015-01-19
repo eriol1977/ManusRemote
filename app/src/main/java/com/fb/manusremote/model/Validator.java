@@ -17,6 +17,9 @@ public class Validator {
                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
+    private static final String ONLY_DIGITS_PATTERN =
+            "\\d+";
+
     public static String validateName(final String name, final Context context) {
         if (name.isEmpty())
             return context.getResources().getString(R.string.validation_field_required);
@@ -74,10 +77,20 @@ public class Validator {
             return context.getResources().getString(R.string.validation_field_required);
 
         try {
-            final int portInt = Integer.parseInt(ringTimeout);
+            Integer.parseInt(ringTimeout);
         } catch (NumberFormatException e) {
-            return context.getResources().getString(R.string.validation_ring_timeout);
+            return context.getResources().getString(R.string.validation_number);
         }
+
+        return "";
+    }
+
+    public static String validatePhoneNumber(final String number, final Context context) {
+        if (number.isEmpty())
+            return context.getResources().getString(R.string.validation_field_required);
+
+        if (!Pattern.compile(ONLY_DIGITS_PATTERN).matcher(number).matches())
+            return context.getResources().getString(R.string.validation_number);
 
         return "";
     }

@@ -5,13 +5,34 @@ package com.fb.manusremote.camera.model;
  */
 public class CameraRemoteData {
 
-    private final String ringTimeout;
+    private final boolean motionDetection;
 
-    public CameraRemoteData(String ringTimeout) {
-        this.ringTimeout = ringTimeout;
+    private final String callNumber;
+
+    private final boolean recordVideo;
+
+    private final boolean takePhoto;
+
+    public CameraRemoteData(final boolean motionDetection, final String callNumber, final boolean recordVideo, final boolean takePhoto) {
+        this.motionDetection = motionDetection;
+        this.callNumber = callNumber;
+        this.recordVideo = recordVideo;
+        this.takePhoto = takePhoto;
     }
 
-    public String getRingTimeout() {
-        return ringTimeout;
+    public boolean getMotionDetection() {
+        return motionDetection;
+    }
+
+    public String getCallNumber() {
+        return callNumber;
+    }
+
+    public boolean getRecordVideo() {
+        return recordVideo;
+    }
+
+    public boolean getTakePhoto() {
+        return takePhoto;
     }
 }

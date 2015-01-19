@@ -35,11 +35,15 @@
     <string name="validation_field_required">Campo obrigatório</string>
     <string name="validation_wrong_format">Verifique o formato</string>
     <string name="validation_port">Deve ser número menor do que 65536</string>
-    <string name="validation_ring_timeout">Deve ser número</string>
+    <string name="validation_number">Deve ser número</string>
     <string name="validation_whitespace">Não pode conter espaços</string>
     <string name="access_cameras">Acessar cameras</string>
     <string name="ip_cam_viewer_not_installed">O aplicativo Ip Cam Viewer não foi encontrado em seu dispositivo.</string>
     <string name="do_you_wish_to_install">Deseja acessar o Google Play para efetuar o download?</string>
     <string name="every_camera_name">(Uma vez instalado o aplicativo, configure cada camera com o mesmo nome usado aqui)</string>
     <string name="no_camera_access">O acesso às cameras não será possível até instalar o aplicativo Ip Cam Viewer</string>
+    <string name="call">Interfonar/Ligar para:</string>
+    <string name="enable_motion_detection">Habilitar detecção de movimento?</string>
+    <string name="record_video">Gravar video e enviar para servidor FTP</string>
+    <string name="take_photo">Tirar foto e enviar por e-mail</string>
 </resources>

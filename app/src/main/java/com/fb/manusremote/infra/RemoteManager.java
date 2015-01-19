@@ -21,10 +21,11 @@ public class RemoteManager {
 
     public static CameraRemoteData loadCameraRemoteData(final Camera camera) {
         // TODO
-        return new CameraRemoteData("60");
+        return new CameraRemoteData(true, "3241426594", true, false);
     }
 
-    public static void saveCameraRemoteData(final String ringTimeout) {
+    public static void saveCameraRemoteData(final boolean motionDetection, final String callNumber,
+                                            final boolean recordVideo, final boolean takePhoto) {
         // TODO
     }
 }

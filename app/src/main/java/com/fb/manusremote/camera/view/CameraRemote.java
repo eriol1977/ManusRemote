@@ -6,22 +6,32 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
 import com.fb.manusremote.R;
 import com.fb.manusremote.camera.model.Camera;
 import com.fb.manusremote.camera.model.CameraRemoteData;
 import com.fb.manusremote.infra.RemoteManager;
-import com.fb.manusremote.intercom.model.Intercom;
-import com.fb.manusremote.intercom.model.IntercomRemoteData;
-import com.fb.manusremote.intercom.view.IntercomConfig;
 import com.fb.manusremote.model.Validator;
 
 public class CameraRemote extends ActionBarActivity {
 
     private Camera camera;
 
-    private EditText ringTimeoutField;
+    private RadioButton motionDetectionYes;
+
+    private RadioButton motionDetectionNo;
+
+    private CheckBox callCheckbox;
+
+    private EditText callNumber;
+
+    private CheckBox recordVideo;
+
+    private CheckBox takePhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,22 +41,80 @@ public class CameraRemote extends ActionBarActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
 
-        ringTimeoutField = (EditText) findViewById(R.id.intercomRingTimeoutEdit);
-        ringTimeoutField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    validateRingTimeout();
+        motionDetectionYes = (RadioButton) findViewById(R.id.cameraMotionDetectionRadioYes);
+        motionDetectionNo = (RadioButton) findViewById(R.id.cameraMotionDetectionRadioNo);
+        motionDetectionYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    callCheckbox.setVisibility(View.VISIBLE);
+                    callNumber.setVisibility(View.VISIBLE);
+                    recordVideo.setVisibility(View.VISIBLE);
+                    takePhoto.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        motionDetectionNo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    callCheckbox.setVisibility(View.INVISIBLE);
+                    callNumber.setVisibility(View.INVISIBLE);
+                    callCheckbox.setChecked(false);
+                    recordVideo.setVisibility(View.INVISIBLE);
+                    recordVideo.setChecked(false);
+                    takePhoto.setVisibility(View.INVISIBLE);
+                    takePhoto.setChecked(false);
                 }
             }
         });
 
+        callCheckbox = (CheckBox) findViewById(R.id.cameraCallCheckbox);
+        callNumber = (EditText) findViewById(R.id.cameraCallEdit);
+        callCheckbox.setVisibility(View.INVISIBLE);
+        callNumber.setVisibility(View.INVISIBLE);
+        callNumber.setEnabled(false);
+        callCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    callNumber.setEnabled(true);
+                } else {
+                    callNumber.setText("");
+                    callNumber.setEnabled(false);
+                }
+            }
+        });
+
+        recordVideo = (CheckBox) findViewById(R.id.cameraRecordVideo);
+        recordVideo.setVisibility(View.INVISIBLE);
+
+        takePhoto = (CheckBox) findViewById(R.id.cameraTakePhoto);
+        takePhoto.setVisibility(View.INVISIBLE);
+
         camera = (Camera) getIntent().getSerializableExtra(CameraConfig.CAMERA);
         if (camera != null) {
-            final CameraRemoteData remoteData = RemoteManager.loadCameraRemoteData(camera);
-            ringTimeoutField.setText(remoteData.getRingTimeout());
+            loadFields();
         }
     }
 
+    private void loadFields() {
+        final CameraRemoteData remoteData = RemoteManager.loadCameraRemoteData(camera);
+
+        if (remoteData.getMotionDetection())
+            motionDetectionYes.setChecked(true);
+        else
+            motionDetectionNo.setChecked(true);
+
+        if (!remoteData.getCallNumber().isEmpty()) {
+            callCheckbox.setChecked(true);
+            callNumber.setText(remoteData.getCallNumber());
+        }
+
+        recordVideo.setChecked(remoteData.getRecordVideo());
+
+        takePhoto.setChecked(remoteData.getTakePhoto());
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -60,8 +128,12 @@ public class CameraRemote extends ActionBarActivity {
 
         if (id == R.id.action_save_voip) {
             if (validateForm()) {
-                final String ringTimeout = ((EditText) findViewById(R.id.intercomRingTimeoutEdit)).getText().toString();
-                RemoteManager.saveCameraRemoteData(ringTimeout);
+                final boolean motionDetection = motionDetectionYes.isChecked();
+                final String call = callNumber.getText().toString();
+                final boolean record = recordVideo.isChecked();
+                final boolean photo = takePhoto.isChecked();
+
+                RemoteManager.saveCameraRemoteData(motionDetection, call, record, photo);
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             }
@@ -71,17 +143,19 @@ public class CameraRemote extends ActionBarActivity {
     }
 
     private boolean validateForm() {
-        return validateRingTimeout();
+        return validateCallNumber();
     }
 
-    private boolean validateRingTimeout() {
-        final String ringTimeout = ringTimeoutField.getText().toString();
-        String message = Validator.validateRingTimeout(ringTimeout, this);
-        if (!message.isEmpty()) {
-            ringTimeoutField.setError(message);
-            return false;
-        } else {
-            ringTimeoutField.setError(null);
+    private boolean validateCallNumber() {
+        if (callCheckbox.isChecked()) {
+            final String call = callNumber.getText().toString();
+            String message = Validator.validatePhoneNumber(call, this);
+            if (!message.isEmpty()) {
+                callNumber.setError(message);
+                return false;
+            } else {
+                callNumber.setError(null);
+            }
         }
         return true;
     }
