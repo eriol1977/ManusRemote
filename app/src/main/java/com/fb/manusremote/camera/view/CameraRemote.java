@@ -80,6 +80,7 @@ public class CameraRemote extends ActionBarActivity {
                 if (isChecked) {
                     callNumber.setEnabled(true);
                 } else {
+                    callNumber.setError(null);
                     callNumber.setText("");
                     callNumber.setEnabled(false);
                 }
