@@ -8,9 +8,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.fb.manusremote.R;
-import com.fb.manusremote.camera.view.CameraRemote;
-import com.fb.manusremote.infra.AuthRequest;
-import com.fb.manusremote.infra.RemoteManager;
+import com.fb.manusremote.camera.view.CameraRemoteActivity;
+import com.fb.manusremote.remote.AuthRequest;
+import com.fb.manusremote.remote.AbstractRemote;
 
 import java.util.Map;
 
@@ -19,7 +19,7 @@ import static android.widget.Toast.LENGTH_LONG;
 /**
  * Created by Francesco on 15/01/2015.
  */
-public class CameraRemoteData {
+public class CameraRemote extends AbstractRemote {
 
     public final static String MOTION_DETECTION = "md.active.enable";
     public final static String RECORD_VIDEO = "md.record.uploadftp";
@@ -28,7 +28,7 @@ public class CameraRemoteData {
 
     public final static String COMMAND_GET_MOTION_DETECTION_CONFIG = "goform/motiondetect?cmd=get";
 
-    private final CameraRemote activity;
+    private final CameraRemoteActivity activity;
 
     private final Camera camera;
 
@@ -40,13 +40,14 @@ public class CameraRemoteData {
 
     private boolean takePhoto;
 
-    public CameraRemoteData(final Camera camera, final CameraRemote activity) {
+    public CameraRemote(final Camera camera, final CameraRemoteActivity activity) {
+        super(activity);
         this.activity = activity;
         this.camera = camera;
     }
 
-    public void loadFields() {
-        if (!RemoteManager.isNetworkAvailable(activity)) {
+    public void load() {
+        if (!isNetworkAvailable()) {
             Toast.makeText(activity, activity.getString(R.string.internet_connection_required), LENGTH_LONG).show();
             activity.showErrorMessage();
             return;
@@ -54,7 +55,7 @@ public class CameraRemoteData {
 
         final RequestQueue queue = Volley.newRequestQueue(activity);
 
-        final String url = RemoteManager.buildURL(camera, COMMAND_GET_MOTION_DETECTION_CONFIG);
+        final String url = buildURL(camera, COMMAND_GET_MOTION_DETECTION_CONFIG);
 
         // Request a string response from the provided URL.
         final AuthRequest stringRequest = new AuthRequest(camera.getUsername(), camera.getPassword(), Request.Method.GET, url,
@@ -62,14 +63,14 @@ public class CameraRemoteData {
                     @Override
                     public void onResponse(Object response) {
                         final Map<String, String> motionDetectionConfiguration =
-                                RemoteManager.buildConfigurationMap((String) response);
-                        motionDetection = RemoteManager.getBooleanValue(motionDetectionConfiguration, MOTION_DETECTION, activity);
+                                buildConfigurationMap((String) response);
+                        motionDetection = getBooleanValue(motionDetectionConfiguration, MOTION_DETECTION);
                         // TODO: ricavare il numero di telefono
-                        final boolean callEnabled = RemoteManager.getBooleanValue(motionDetectionConfiguration, CALL_ENABLED, activity);
+                        final boolean callEnabled = getBooleanValue(motionDetectionConfiguration, CALL_ENABLED);
                         callNumber = callEnabled ? "555" : "";
-                        recordVideo = RemoteManager.getBooleanValue(motionDetectionConfiguration, RECORD_VIDEO, activity);
-                        takePhoto = RemoteManager.getBooleanValue(motionDetectionConfiguration, TAKE_PHOTO, activity);
-                        activity.loadFields(CameraRemoteData.this);
+                        recordVideo = getBooleanValue(motionDetectionConfiguration, RECORD_VIDEO);
+                        takePhoto = getBooleanValue(motionDetectionConfiguration, TAKE_PHOTO);
+                        activity.loadFields(CameraRemote.this);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -82,19 +83,41 @@ public class CameraRemoteData {
         queue.add(stringRequest);
     }
 
+    @Override
+    public void save() {
+        // TODO
+    }
+
     public boolean getMotionDetection() {
         return motionDetection;
+    }
+
+    public void setMotionDetection(boolean motionDetection) {
+        this.motionDetection = motionDetection;
     }
 
     public String getCallNumber() {
         return callNumber;
     }
 
+    public void setCallNumber(String callNumber) {
+        this.callNumber = callNumber;
+    }
+
     public boolean getRecordVideo() {
         return recordVideo;
+    }
+
+    public void setRecordVideo(boolean recordVideo) {
+        this.recordVideo = recordVideo;
     }
 
     public boolean getTakePhoto() {
         return takePhoto;
     }
+
+    public void setTakePhoto(boolean takePhoto) {
+        this.takePhoto = takePhoto;
+    }
+
 }

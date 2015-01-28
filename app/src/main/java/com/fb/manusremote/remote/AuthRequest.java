@@ -1,4 +1,4 @@
-package com.fb.manusremote.infra;
+package com.fb.manusremote.remote;
 
 import android.util.Base64;
 

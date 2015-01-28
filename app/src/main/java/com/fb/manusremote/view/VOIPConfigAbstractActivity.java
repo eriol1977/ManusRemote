@@ -21,6 +21,8 @@ public class VOIPConfigAbstractActivity extends ActionBarActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        overridePendingTransition(0,0);
         setContentView(R.layout.activity_voip_config);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);

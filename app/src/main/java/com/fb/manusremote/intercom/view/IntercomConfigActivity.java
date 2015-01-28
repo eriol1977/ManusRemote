@@ -16,7 +16,7 @@ import com.fb.manusremote.view.VOIPConfigAbstractActivity;
 import com.fb.manusremote.intercom.model.Intercom;
 
 
-public class IntercomConfig extends VOIPConfigAbstractActivity {
+public class IntercomConfigActivity extends VOIPConfigAbstractActivity {
 
     public static final String INTERCOM = "intercom";
 
@@ -62,12 +62,12 @@ public class IntercomConfig extends VOIPConfigAbstractActivity {
                 final String password = passwordField.getText().toString();
                 PersistenceManager.updateIntercom(oldName,name, ip, port, username, password,
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-                NavUtils.navigateUpFromSameTask(IntercomConfig.this);
+                NavUtils.navigateUpFromSameTask(IntercomConfigActivity.this);
                 return true;
             }
         } else if (id == R.id.action_config_voip) {
             final Intent intent = new Intent();
-            intent.setClass(this, IntercomRemote.class);
+            intent.setClass(this, IntercomRemoteActivity.class);
             intent.putExtra(INTERCOM, intercom);
             startActivity(intent);
             return true;
@@ -84,7 +84,7 @@ public class IntercomConfig extends VOIPConfigAbstractActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         final String name = nameField.getText().toString();
                         PersistenceManager.removeIntercom(name, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-                        NavUtils.navigateUpFromSameTask(IntercomConfig.this);
+                        NavUtils.navigateUpFromSameTask(IntercomConfigActivity.this);
                     }
                 })
                 .setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {

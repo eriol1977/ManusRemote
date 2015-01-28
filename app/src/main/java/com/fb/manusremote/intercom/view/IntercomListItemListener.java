@@ -20,8 +20,8 @@ public class IntercomListItemListener implements AdapterView.OnItemClickListener
         final Intercom intercom = (Intercom) parent.getItemAtPosition(position);
 
         final Intent intent = new Intent();
-        intent.setClass(context, IntercomConfig.class);
-        intent.putExtra(IntercomConfig.INTERCOM, intercom);
+        intent.setClass(context, IntercomConfigActivity.class);
+        intent.putExtra(IntercomConfigActivity.INTERCOM, intercom);
         context.startActivity(intent);
     }
 

@@ -9,7 +9,7 @@ import com.fb.manusremote.infra.PersistenceManager;
 import com.fb.manusremote.R;
 import com.fb.manusremote.view.VOIPConfigAbstractActivity;
 
-public class IntercomCreate extends VOIPConfigAbstractActivity {
+public class IntercomCreateActivity extends VOIPConfigAbstractActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -7,16 +7,17 @@ import android.view.View;
 import android.widget.Button;
 
 import com.fb.manusremote.R;
-import com.fb.manusremote.camera.view.Cameras;
-import com.fb.manusremote.infra.RemoteManager;
-import com.fb.manusremote.intercom.view.Intercoms;
+import com.fb.manusremote.camera.view.CamerasActivity;
+import com.fb.manusremote.intercom.view.IntercomsActivity;
 
 
-public class Main extends Activity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        overridePendingTransition(0,0);
         setContentView(R.layout.activity_main);
 
         final Button btnIntercoms = (Button) findViewById(R.id.btnIntercoms);
@@ -24,7 +25,7 @@ public class Main extends Activity {
             @Override
             public void onClick(View v) {
                 final Intent intercomsIntent = new Intent();
-                intercomsIntent.setClass(Main.this, Intercoms.class);
+                intercomsIntent.setClass(MainActivity.this, IntercomsActivity.class);
                 startActivity(intercomsIntent);
             }
         });
@@ -34,7 +35,7 @@ public class Main extends Activity {
             @Override
             public void onClick(View v) {
                 final Intent camerasIntent = new Intent();
-                camerasIntent.setClass(Main.this, Cameras.class);
+                camerasIntent.setClass(MainActivity.this, CamerasActivity.class);
                 startActivity(camerasIntent);
             }
         });

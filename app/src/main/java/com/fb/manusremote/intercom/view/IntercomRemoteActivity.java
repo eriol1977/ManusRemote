@@ -7,27 +7,34 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.fb.manusremote.R;
-import com.fb.manusremote.infra.RemoteManager;
 import com.fb.manusremote.intercom.model.Intercom;
-import com.fb.manusremote.intercom.model.IntercomRemoteData;
+import com.fb.manusremote.intercom.model.IntercomRemote;
 import com.fb.manusremote.model.Validator;
 
-// TODO varie correzioni basate sull'implementazione di CameraRemote
-public class IntercomRemote extends ActionBarActivity {
+public class IntercomRemoteActivity extends ActionBarActivity {
 
     private Intercom intercom;
+
+    private IntercomRemote remoteData;
+
     private EditText ringTimeoutField;
 
-    private RemoteManager remoteManager;
+    private ProgressBar spinner;
+
+    private RelativeLayout content;
+
+    private boolean errorLoading = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_intercom_remote);
 
-        remoteManager = new RemoteManager();
+        overridePendingTransition(0,0);
+        setContentView(R.layout.activity_intercom_remote);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
@@ -41,13 +48,29 @@ public class IntercomRemote extends ActionBarActivity {
             }
         });
 
-        intercom = (Intercom) getIntent().getSerializableExtra(IntercomConfig.INTERCOM);
+        content = (RelativeLayout) findViewById(R.id.intercomRemoteContent);
+        content.setVisibility(View.INVISIBLE);
+        spinner = (ProgressBar) findViewById(R.id.intercomRemoteSpinner);
+
+        intercom = (Intercom) getIntent().getSerializableExtra(IntercomConfigActivity.INTERCOM);
         if (intercom != null) {
-            final IntercomRemoteData remoteData = remoteManager.loadIntercomRemoteData(intercom);
-            ringTimeoutField.setText(remoteData.getRingTimeout());
+            remoteData = new IntercomRemote(intercom, this);
+            remoteData.load();
         }
     }
 
+    public void loadFields(final IntercomRemote remoteData) {
+        spinner.setVisibility(View.GONE);
+        content.setVisibility(View.VISIBLE);
+        errorLoading = false;
+
+        ringTimeoutField.setText(remoteData.getRingTimeout());
+    }
+
+    public void showErrorMessage() {
+        spinner.setVisibility(View.GONE);
+        findViewById(R.id.intercomRemoteError).setVisibility(View.VISIBLE);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -60,9 +83,17 @@ public class IntercomRemote extends ActionBarActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_save_voip) {
+
+            if (!errorLoading) {
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            }
+
             if (validateForm()) {
                 final String ringTimeout = ((EditText) findViewById(R.id.intercomRingTimeoutEdit)).getText().toString();
-                remoteManager.saveIntercomRemoteData(ringTimeout);
+                remoteData.setRingTimeout(ringTimeout);
+                remoteData.save();
+
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             }

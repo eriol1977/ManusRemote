@@ -1,4 +1,4 @@
-package com.fb.manusremote.camera.view;
+package com.fb.manusremote.intercom.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,31 +11,34 @@ import android.widget.ListView;
 import com.fb.manusremote.R;
 import com.fb.manusremote.infra.PersistenceManager;
 import com.fb.manusremote.model.VOIPAdapter;
-import com.fb.manusremote.view.IpCamViewerUtil;
 import com.fb.manusremote.view.VOIPListArrayAdapterItem;
 
 import java.util.List;
 
 
-public class Cameras extends ActionBarActivity {
+public class IntercomsActivity extends ActionBarActivity {
+
+    final static String INTERCOMS = "intercoms";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cameras);
+
+        overridePendingTransition(0,0);
+        setContentView(R.layout.activity_intercoms);
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
 
-        final ListView listCameras = (ListView) findViewById(R.id.listCameras);
-        final List<VOIPAdapter> cameras = PersistenceManager.loadCameras(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-        listCameras.setAdapter(new VOIPListArrayAdapterItem(this, R.layout.voip_list_row, cameras));
-        listCameras.setOnItemClickListener(new CameraListItemListener());
+        final ListView listIntercoms = (ListView) findViewById(R.id.listIntercoms);
+        final List<VOIPAdapter> intercoms =
+                PersistenceManager.loadIntercoms(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
+        listIntercoms.setAdapter(new VOIPListArrayAdapterItem(this, R.layout.voip_list_row, intercoms));
+        listIntercoms.setOnItemClickListener(new IntercomListItemListener());
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_camera_list, menu);
+        getMenuInflater().inflate(R.menu.menu_voip_list, menu);
         return true;
     }
 
@@ -45,14 +48,11 @@ public class Cameras extends ActionBarActivity {
 
         if (id == R.id.action_add_voip) {
             final Intent intent = new Intent();
-            intent.setClass(this, CameraCreate.class);
+            intent.setClass(this, IntercomCreateActivity.class);
             startActivity(intent);
             return true;
-        } else if (id == R.id.action_view_camera) {
-            IpCamViewerUtil.viewAllCameras(this);
         }
 
         return super.onOptionsItemSelected(item);
     }
-
 }

@@ -15,13 +15,14 @@ import android.widget.RelativeLayout;
 
 import com.fb.manusremote.R;
 import com.fb.manusremote.camera.model.Camera;
-import com.fb.manusremote.camera.model.CameraRemoteData;
-import com.fb.manusremote.infra.RemoteManager;
+import com.fb.manusremote.camera.model.CameraRemote;
 import com.fb.manusremote.model.Validator;
 
-public class CameraRemote extends ActionBarActivity {
+public class CameraRemoteActivity extends ActionBarActivity {
 
     private Camera camera;
+
+    private CameraRemote cameraRemote;
 
     private RadioButton motionDetectionYes;
 
@@ -35,8 +36,6 @@ public class CameraRemote extends ActionBarActivity {
 
     private CheckBox takePhoto;
 
-    private RemoteManager remoteManager;
-
     private ProgressBar spinner;
 
     private RelativeLayout content;
@@ -46,9 +45,9 @@ public class CameraRemote extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_camera_remote);
 
-        remoteManager = new RemoteManager();
+        overridePendingTransition(0,0);
+        setContentView(R.layout.activity_camera_remote);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
@@ -108,12 +107,13 @@ public class CameraRemote extends ActionBarActivity {
         takePhoto = (CheckBox) findViewById(R.id.cameraTakePhoto);
         takePhoto.setVisibility(View.INVISIBLE);
 
-        camera = (Camera) getIntent().getSerializableExtra(CameraConfig.CAMERA);
+        camera = (Camera) getIntent().getSerializableExtra(CameraConfigActivity.CAMERA);
 
         spinner = (ProgressBar) findViewById(R.id.cameraRemoteSpinner);
 
         if (camera != null) {
-            remoteManager.loadCameraRemoteData(camera, this);
+            cameraRemote = new CameraRemote(camera, this);
+            cameraRemote.load();
         }
     }
 
@@ -122,7 +122,7 @@ public class CameraRemote extends ActionBarActivity {
      *
      * @param remoteData
      */
-    public void loadFields(final CameraRemoteData remoteData) {
+    public void loadFields(final CameraRemote remoteData) {
 
         spinner.setVisibility(View.GONE);
         content.setVisibility(View.VISIBLE);
@@ -160,18 +160,18 @@ public class CameraRemote extends ActionBarActivity {
 
         if (id == R.id.action_save_voip) {
 
-            if (errorLoading) {
+            if (!errorLoading) {
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             }
 
             if (validateForm()) {
-                final boolean motionDetection = motionDetectionYes.isChecked();
-                final String call = callNumber.getText().toString();
-                final boolean record = recordVideo.isChecked();
-                final boolean photo = takePhoto.isChecked();
+                cameraRemote.setMotionDetection(motionDetectionYes.isChecked());
+                cameraRemote.setCallNumber(callNumber.getText().toString());
+                cameraRemote.setRecordVideo(recordVideo.isChecked());
+                cameraRemote.setTakePhoto(takePhoto.isChecked());
+                cameraRemote.save();
 
-                remoteManager.saveCameraRemoteData(motionDetection, call, record, photo);
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             }

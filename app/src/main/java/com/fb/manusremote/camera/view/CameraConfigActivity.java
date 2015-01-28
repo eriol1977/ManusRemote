@@ -17,7 +17,7 @@ import com.fb.manusremote.view.IpCamViewerUtil;
 import com.fb.manusremote.view.VOIPConfigAbstractActivity;
 
 
-public class CameraConfig extends VOIPConfigAbstractActivity {
+public class CameraConfigActivity extends VOIPConfigAbstractActivity {
 
     public static final String CAMERA = "camera";
 
@@ -63,12 +63,12 @@ public class CameraConfig extends VOIPConfigAbstractActivity {
                 final String password = passwordField.getText().toString();
                 PersistenceManager.updateCamera(oldName, name, ip, port, username, password,
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-                NavUtils.navigateUpFromSameTask(CameraConfig.this);
+                NavUtils.navigateUpFromSameTask(CameraConfigActivity.this);
                 return true;
             }
         } else if (id == R.id.action_config_voip) {
             final Intent intent = new Intent();
-            intent.setClass(this, CameraRemote.class);
+            intent.setClass(this, CameraRemoteActivity.class);
             intent.putExtra(CAMERA, camera);
             startActivity(intent);
             return true;
@@ -87,7 +87,7 @@ public class CameraConfig extends VOIPConfigAbstractActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         final String name = nameField.getText().toString();
                         PersistenceManager.removeCamera(name, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-                        NavUtils.navigateUpFromSameTask(CameraConfig.this);
+                        NavUtils.navigateUpFromSameTask(CameraConfigActivity.this);
                     }
                 })
                 .setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
