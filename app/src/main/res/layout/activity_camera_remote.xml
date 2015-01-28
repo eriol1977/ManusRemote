@@ -12,82 +12,105 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ProgressBar
+            android:id="@+id/cameraRemoteSpinner"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerInParent="true" />
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/enable_motion_detection"
-            android:id="@+id/cameraMotionDetectionLabel"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/cameraRemoteError"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@+id/cameraMotionDetectionLabel"
-            android:id="@+id/cameraMotionDetectionRadioGroup"
-            android:layout_marginTop="5dp">
+            android:layout_height="fill_parent"
+            android:layout_centerInParent="true"
+            android:text="@string/config_data_loading_failed"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:visibility="invisible"/>
 
-            <RadioButton
-                android:id="@+id/cameraMotionDetectionRadioYes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/yes" />
-
-            <RadioButton
-                android:id="@+id/cameraMotionDetectionRadioNo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/no" />
-        </RadioGroup>
-
-        <View
-            android:id="@+id/separator1"
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_below="@+id/cameraMotionDetectionRadioGroup" />
-
-        <LinearLayout
-            android:id="@+id/callFields"
+        <RelativeLayout
+            android:id="@+id/cameraRemoteContent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/separator1">
+            android:layout_height="match_parent">
 
-            <CheckBox
-                android:id="@+id/cameraCallCheckbox"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/call" />
+                android:text="@string/enable_motion_detection"
+                android:id="@+id/cameraMotionDetectionLabel"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
-            <EditText
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/cameraMotionDetectionLabel"
+                android:id="@+id/cameraMotionDetectionRadioGroup"
+                android:layout_marginTop="5dp">
+
+                <RadioButton
+                    android:id="@+id/cameraMotionDetectionRadioYes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/yes" />
+
+                <RadioButton
+                    android:id="@+id/cameraMotionDetectionRadioNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no" />
+            </RadioGroup>
+
+            <View
+                android:id="@+id/separator1"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/cameraMotionDetectionRadioGroup" />
+
+            <LinearLayout
+                android:id="@+id/callFields"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:inputType="phone"
-                android:singleLine="true"
-                android:id="@+id/cameraCallEdit"
-                android:layout_below="@+id/intercomRingTimeoutLabel"/>
-        </LinearLayout>
+                android:layout_below="@+id/separator1">
 
-        <CheckBox
-            android:id="@+id/cameraRecordVideo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/record_video"
-            android:layout_below="@+id/callFields"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"/>
+                <CheckBox
+                    android:id="@+id/cameraCallCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/call" />
 
-        <CheckBox
-            android:id="@+id/cameraTakePhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/take_photo"
-            android:layout_below="@+id/cameraRecordVideo"
-            android:layout_marginBottom="10dp"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:inputType="phone"
+                    android:singleLine="true"
+                    android:id="@+id/cameraCallEdit"
+                    android:layout_below="@+id/intercomRingTimeoutLabel" />
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/cameraRecordVideo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/record_video"
+                android:layout_below="@+id/callFields"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <CheckBox
+                android:id="@+id/cameraTakePhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/take_photo"
+                android:layout_below="@+id/cameraRecordVideo"
+                android:layout_marginBottom="10dp" />
+        </RelativeLayout>
     </RelativeLayout>
 </ScrollView>

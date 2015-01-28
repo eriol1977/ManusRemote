@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 
 import com.fb.manusremote.R;
 import com.fb.manusremote.camera.model.Camera;
@@ -33,13 +35,26 @@ public class CameraRemote extends ActionBarActivity {
 
     private CheckBox takePhoto;
 
+    private RemoteManager remoteManager;
+
+    private ProgressBar spinner;
+
+    private RelativeLayout content;
+
+    private boolean errorLoading = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_remote);
 
+        remoteManager = new RemoteManager();
+
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+
+        content = (RelativeLayout) findViewById(R.id.cameraRemoteContent);
+        content.setVisibility(View.INVISIBLE);
 
         motionDetectionYes = (RadioButton) findViewById(R.id.cameraMotionDetectionRadioYes);
         motionDetectionNo = (RadioButton) findViewById(R.id.cameraMotionDetectionRadioNo);
@@ -94,13 +109,24 @@ public class CameraRemote extends ActionBarActivity {
         takePhoto.setVisibility(View.INVISIBLE);
 
         camera = (Camera) getIntent().getSerializableExtra(CameraConfig.CAMERA);
+
+        spinner = (ProgressBar) findViewById(R.id.cameraRemoteSpinner);
+
         if (camera != null) {
-            loadFields();
+            remoteManager.loadCameraRemoteData(camera, this);
         }
     }
 
-    private void loadFields() {
-        final CameraRemoteData remoteData = RemoteManager.loadCameraRemoteData(camera);
+    /**
+     * Called asynchronously by CameraRemoteData itself, after connecting and retrieving data
+     *
+     * @param remoteData
+     */
+    public void loadFields(final CameraRemoteData remoteData) {
+
+        spinner.setVisibility(View.GONE);
+        content.setVisibility(View.VISIBLE);
+        errorLoading = false;
 
         if (remoteData.getMotionDetection())
             motionDetectionYes.setChecked(true);
@@ -117,6 +143,11 @@ public class CameraRemote extends ActionBarActivity {
         takePhoto.setChecked(remoteData.getTakePhoto());
     }
 
+    public void showErrorMessage() {
+        spinner.setVisibility(View.GONE);
+        findViewById(R.id.cameraRemoteError).setVisibility(View.VISIBLE);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_voip_remote, menu);
@@ -128,13 +159,19 @@ public class CameraRemote extends ActionBarActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_save_voip) {
+
+            if (errorLoading) {
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            }
+
             if (validateForm()) {
                 final boolean motionDetection = motionDetectionYes.isChecked();
                 final String call = callNumber.getText().toString();
                 final boolean record = recordVideo.isChecked();
                 final boolean photo = takePhoto.isChecked();
 
-                RemoteManager.saveCameraRemoteData(motionDetection, call, record, photo);
+                remoteManager.saveCameraRemoteData(motionDetection, call, record, photo);
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             }

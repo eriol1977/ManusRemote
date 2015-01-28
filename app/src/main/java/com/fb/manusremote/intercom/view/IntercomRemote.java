@@ -14,15 +14,20 @@ import com.fb.manusremote.intercom.model.Intercom;
 import com.fb.manusremote.intercom.model.IntercomRemoteData;
 import com.fb.manusremote.model.Validator;
 
+// TODO varie correzioni basate sull'implementazione di CameraRemote
 public class IntercomRemote extends ActionBarActivity {
 
     private Intercom intercom;
     private EditText ringTimeoutField;
 
+    private RemoteManager remoteManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intercom_remote);
+
+        remoteManager = new RemoteManager();
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
@@ -38,7 +43,7 @@ public class IntercomRemote extends ActionBarActivity {
 
         intercom = (Intercom) getIntent().getSerializableExtra(IntercomConfig.INTERCOM);
         if (intercom != null) {
-            final IntercomRemoteData remoteData = RemoteManager.loadIntercomRemoteData(intercom);
+            final IntercomRemoteData remoteData = remoteManager.loadIntercomRemoteData(intercom);
             ringTimeoutField.setText(remoteData.getRingTimeout());
         }
     }
@@ -57,7 +62,7 @@ public class IntercomRemote extends ActionBarActivity {
         if (id == R.id.action_save_voip) {
             if (validateForm()) {
                 final String ringTimeout = ((EditText) findViewById(R.id.intercomRingTimeoutEdit)).getText().toString();
-                RemoteManager.saveIntercomRemoteData(ringTimeout);
+                remoteManager.saveIntercomRemoteData(ringTimeout);
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             }

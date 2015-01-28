@@ -1,14 +1,14 @@
 package com.fb.manusremote.view;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.fb.manusremote.camera.view.Cameras;
 import com.fb.manusremote.R;
+import com.fb.manusremote.camera.view.Cameras;
+import com.fb.manusremote.infra.RemoteManager;
 import com.fb.manusremote.intercom.view.Intercoms;
 
 

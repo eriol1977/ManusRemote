@@ -46,4 +46,8 @@
     <string name="enable_motion_detection">Habilitar detecção de movimento?</string>
     <string name="record_video">Gravar video e enviar para servidor FTP</string>
     <string name="take_photo">Tirar foto e enviar por e-mail</string>
+    <string name="internet_connection_required">É necessária uma conexão Internet.</string>
+    <string name="remote_config_loading_error">Erro na busca da configuração remota</string>
+    <string name="parameter_reading_error">"Erro na leitura do parâmetro "</string>
+    <string name="config_data_loading_failed">Não foi possível carregar os dados de configuração</string>
 </resources>
