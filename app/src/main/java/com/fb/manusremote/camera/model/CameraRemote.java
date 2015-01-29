@@ -21,7 +21,15 @@ public class CameraRemote extends AbstractRemote {
 
     public final static String COMMAND_GET_PHONEBOOK_CONFIG = "goform/sip?cmd=get";
 
+    public final static String COMMAND_SET_MOTION_DETECTION_CONFIG = "goform/motiondetect?cmd=set&md.active.enable=%s&md.record.uploadftp=%s&md.snapshot.enable=%s&md.sipphone.enable=%s";
+
+    public final static String COMMAND_REMOVE_PHONE_NUMBER = "goform/sip?cmd=remove&phone.index=1";
+
+    public final static String COMMAND_ADD_PHONE_NUMBER = "goform/sip?cmd=add&phone.name=VoiceAlarm&phone.number=%s";
+
     private boolean motionDetection;
+
+    private boolean callEnabled;
 
     private String callNumber;
 
@@ -43,12 +51,7 @@ public class CameraRemote extends AbstractRemote {
                     @Override
                     public void onResponse(Object response) {
                         motionDetectionConfiguration = buildConfigurationMap((String) response);
-                        final boolean callEnabled = getBooleanValue(motionDetectionConfiguration, CALL_ENABLED);
-                        if (callEnabled) {
-                            loadPhonebookConfig();
-                        } else {
-                            fillProperties(false);
-                        }
+                        loadPhonebookConfig();
                     }
                 });
     }
@@ -59,20 +62,17 @@ public class CameraRemote extends AbstractRemote {
                     @Override
                     public void onResponse(Object response) {
                         phonebookConfiguration = buildConfigurationMap((String) response);
-                        fillProperties(true);
+                        fillProperties();
                     }
                 });
     }
 
-    private void fillProperties(final boolean callEnabled) {
+    private void fillProperties() {
         motionDetection = getBooleanValue(motionDetectionConfiguration, MOTION_DETECTION);
         recordVideo = getBooleanValue(motionDetectionConfiguration, RECORD_VIDEO);
         takePhoto = getBooleanValue(motionDetectionConfiguration, TAKE_PHOTO);
-
-        if (callEnabled)
-            callNumber = phonebookConfiguration.get(CALL_NUMBER);
-        else
-            callNumber = "";
+        callEnabled = getBooleanValue(motionDetectionConfiguration, CALL_ENABLED);
+        callNumber = phonebookConfiguration.get(CALL_NUMBER);
 
         activity.loadFields();
     }
@@ -80,9 +80,45 @@ public class CameraRemote extends AbstractRemote {
     @Override
     public void save() {
         final String motionDetectionToSend = motionDetection ? "1" : "0";
+        final String recordVideoToSend = recordVideo ? "1" : "0";
+        final String takePhotoToSend = takePhoto ? "1" : "0";
+        final String callEnabledToSend = callEnabled ? "1" : "0";
 
-        // TODO
+        // salva os dados do motion detection
+        doNetworkRequest(String.format(COMMAND_SET_MOTION_DETECTION_CONFIG, motionDetectionToSend,
+                        recordVideoToSend, takePhotoToSend, callEnabledToSend),
+                new Response.Listener() {
+                    @Override
+                    public void onResponse(Object response) {
+                        // salva também o número de telefone, se o voice alarm estiver ativado
+                        if (callEnabled) {
+                            savePhoneNumber();
+                        } else {
+                            showSuccess();
+                        }
+                    }
+                });
 
+    }
+
+    /**
+     * Não havendo "set", mas somente "add" e "remove" de números de telefone na SIP,
+     * este método remove o primeiro número da lista e adiciona um novo com o nome 'VoiceAlarm'
+     */
+    private void savePhoneNumber() {
+        doNetworkRequest(COMMAND_REMOVE_PHONE_NUMBER,
+                new Response.Listener() {
+                    @Override
+                    public void onResponse(Object response) {
+                        doNetworkRequest(String.format(COMMAND_ADD_PHONE_NUMBER, callNumber),
+                                new Response.Listener() {
+                                    @Override
+                                    public void onResponse(Object response) {
+                                        showSuccess();
+                                    }
+                                });
+                    }
+                });
     }
 
     public boolean getMotionDetection() {
@@ -117,4 +153,11 @@ public class CameraRemote extends AbstractRemote {
         this.takePhoto = takePhoto;
     }
 
+    public boolean getCallEnabled() {
+        return callEnabled;
+    }
+
+    public void setCallEnabled(boolean callEnabled) {
+        this.callEnabled = callEnabled;
+    }
 }

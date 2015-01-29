@@ -101,4 +101,9 @@ public abstract class AbstractRemote {
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
     }
+
+    protected void showSuccess() {
+        Toast.makeText(activity, activity.getString(R.string.configuration_saved), LENGTH_LONG).show();
+        activity.goBack();
+    }
 }

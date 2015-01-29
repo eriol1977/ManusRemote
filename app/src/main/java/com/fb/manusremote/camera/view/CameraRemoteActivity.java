@@ -73,7 +73,6 @@ public class CameraRemoteActivity extends AbstractRemoteActivity {
                     callNumber.setEnabled(true);
                 } else {
                     callNumber.setError(null);
-                    callNumber.setText("");
                     callNumber.setEnabled(false);
                 }
             }
@@ -105,10 +104,8 @@ public class CameraRemoteActivity extends AbstractRemoteActivity {
         else
             motionDetectionNo.setChecked(true);
 
-        if (!cameraRemote.getCallNumber().isEmpty()) {
-            callCheckbox.setChecked(true);
-            callNumber.setText(cameraRemote.getCallNumber());
-        }
+        callCheckbox.setChecked(cameraRemote.getCallEnabled());
+        callNumber.setText(cameraRemote.getCallNumber());
 
         recordVideo.setChecked(cameraRemote.getRecordVideo());
 
@@ -119,6 +116,7 @@ public class CameraRemoteActivity extends AbstractRemoteActivity {
     protected void updateRemote() {
         CameraRemote cameraRemote = (CameraRemote) remote;
         cameraRemote.setMotionDetection(motionDetectionYes.isChecked());
+        cameraRemote.setCallEnabled(callCheckbox.isChecked());
         cameraRemote.setCallNumber(callNumber.getText().toString());
         cameraRemote.setRecordVideo(recordVideo.isChecked());
         cameraRemote.setTakePhoto(takePhoto.isChecked());

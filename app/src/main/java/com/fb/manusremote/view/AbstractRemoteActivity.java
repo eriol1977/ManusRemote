@@ -97,21 +97,28 @@ public abstract class AbstractRemoteActivity extends ActionBarActivity {
 
         if (id == R.id.action_save_voip) {
 
-            if (!errorLoading) {
-                NavUtils.navigateUpFromSameTask(this);
+            if (errorLoading) {
+                goBack();
                 return true;
             }
 
             if (validateForm()) {
                 updateRemote();
+
+                spinner.setVisibility(View.VISIBLE);
+                content.setVisibility(View.INVISIBLE);
                 remote.save();
 
-                NavUtils.navigateUpFromSameTask(this);
                 return true;
             }
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void goBack()
+    {
+        NavUtils.navigateUpFromSameTask(this);
     }
 
     protected abstract void updateRemote();

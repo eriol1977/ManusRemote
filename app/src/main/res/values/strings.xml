@@ -50,4 +50,5 @@
     <string name="remote_config_loading_error">Erro na busca da configuração remota</string>
     <string name="parameter_reading_error">"Erro na leitura do parâmetro "</string>
     <string name="config_data_loading_failed">Não foi possível carregar os dados de configuração</string>
+    <string name="configuration_saved">A configuração foi salva</string>
 </resources>
