@@ -1,5 +1,3 @@
--- caricare numero di telefono se md.sipphone.enable é true
-
 -- salvare la configurazione attuale in remoto
 
 -- comando clona oggetto

@@ -1,44 +1,25 @@
 package com.fb.manusremote.intercom.view;
 
-import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import com.fb.manusremote.R;
 import com.fb.manusremote.intercom.model.Intercom;
 import com.fb.manusremote.intercom.model.IntercomRemote;
 import com.fb.manusremote.model.Validator;
+import com.fb.manusremote.view.AbstractRemoteActivity;
 
-public class IntercomRemoteActivity extends ActionBarActivity {
-
-    private Intercom intercom;
-
-    private IntercomRemote remoteData;
+public class IntercomRemoteActivity extends AbstractRemoteActivity {
 
     private EditText ringTimeoutField;
 
-    private ProgressBar spinner;
-
-    private RelativeLayout content;
-
-    private boolean errorLoading = true;
+    public IntercomRemoteActivity() {
+        super(R.layout.activity_intercom_remote, R.id.intercomRemoteContent,
+                R.id.intercomRemoteSpinner, R.id.intercomRemoteError);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        overridePendingTransition(0,0);
-        setContentView(R.layout.activity_intercom_remote);
-
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
-
+    protected void initFields() {
         ringTimeoutField = (EditText) findViewById(R.id.intercomRingTimeoutEdit);
         ringTimeoutField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
@@ -47,62 +28,29 @@ public class IntercomRemoteActivity extends ActionBarActivity {
                 }
             }
         });
-
-        content = (RelativeLayout) findViewById(R.id.intercomRemoteContent);
-        content.setVisibility(View.INVISIBLE);
-        spinner = (ProgressBar) findViewById(R.id.intercomRemoteSpinner);
-
-        intercom = (Intercom) getIntent().getSerializableExtra(IntercomConfigActivity.INTERCOM);
-        if (intercom != null) {
-            remoteData = new IntercomRemote(intercom, this);
-            remoteData.load();
-        }
-    }
-
-    public void loadFields(final IntercomRemote remoteData) {
-        spinner.setVisibility(View.GONE);
-        content.setVisibility(View.VISIBLE);
-        errorLoading = false;
-
-        ringTimeoutField.setText(remoteData.getRingTimeout());
-    }
-
-    public void showErrorMessage() {
-        spinner.setVisibility(View.GONE);
-        findViewById(R.id.intercomRemoteError).setVisibility(View.VISIBLE);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_voip_remote, menu);
-        return true;
+    protected void initAdapterAndRemote() {
+        adapter = (Intercom) getIntent().getSerializableExtra(IntercomConfigActivity.INTERCOM);
+        if (adapter != null) {
+            remote = new IntercomRemote((Intercom) adapter, this);
+            remote.load();
+        }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_save_voip) {
-
-            if (!errorLoading) {
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-            }
-
-            if (validateForm()) {
-                final String ringTimeout = ((EditText) findViewById(R.id.intercomRingTimeoutEdit)).getText().toString();
-                remoteData.setRingTimeout(ringTimeout);
-                remoteData.save();
-
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-            }
-        }
-
-        return super.onOptionsItemSelected(item);
+    protected void loadSpecificFields() {
+        ringTimeoutField.setText(((IntercomRemote) remote).getRingTimeout());
     }
 
-    private boolean validateForm() {
+    @Override
+    protected void updateRemote() {
+        final String ringTimeout = ((EditText) findViewById(R.id.intercomRingTimeoutEdit)).getText().toString();
+        ((IntercomRemote) remote).setRingTimeout(ringTimeout);
+    }
+
+    protected boolean validateForm() {
         return validateRingTimeout();
     }
 

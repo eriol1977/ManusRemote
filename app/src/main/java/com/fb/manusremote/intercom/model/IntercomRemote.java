@@ -8,16 +8,10 @@ import com.fb.manusremote.remote.AbstractRemote;
  */
 public class IntercomRemote extends AbstractRemote {
 
-    private final Intercom intercom;
-
-    private final IntercomRemoteActivity activity;
-
     private String ringTimeout;
 
     public IntercomRemote(final Intercom intercom, final IntercomRemoteActivity activity) {
-        super(activity);
-        this.intercom = intercom;
-        this.activity = activity;
+        super(intercom, activity);
     }
 
     public String getRingTimeout() {
@@ -32,7 +26,7 @@ public class IntercomRemote extends AbstractRemote {
     public void load() {
         // TODO
         setRingTimeout("60");
-        activity.loadFields(this);
+        activity.loadFields();
     }
 
     @Override
