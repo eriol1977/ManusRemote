@@ -24,6 +24,8 @@ public class PersistenceManager {
 
     private final static String CAMERA_PREFIX = "ca_";
 
+    private final static String CLONE_SUFFIX = "_clone";
+
     //// INTERCOMS
 
     public static List<VOIPAdapter> loadIntercoms(final SharedPreferences preferences) {
@@ -39,6 +41,11 @@ public class PersistenceManager {
             }
         }
         return intercoms;
+    }
+
+    public static void cloneIntercom(final Intercom intercom, final SharedPreferences preferences) {
+        addIntercom(intercom.getName() + CLONE_SUFFIX, intercom.getIp(), intercom.getPort(),
+                intercom.getUsername(), intercom.getPassword(), preferences);
     }
 
     public static void addIntercom(String name, String ip, String port, String username, String password, final SharedPreferences preferences) {
@@ -97,6 +104,11 @@ public class PersistenceManager {
             }
         }
         return cameras;
+    }
+
+    public static void cloneCamera(final Camera camera, final SharedPreferences preferences) {
+        addCamera(camera.getName() + CLONE_SUFFIX, camera.getIp(), camera.getPort(),
+                camera.getUsername(), camera.getPassword(), preferences);
     }
 
     public static void addCamera(String name, String ip, String port, String username, String password, final SharedPreferences preferences) {

@@ -72,6 +72,11 @@ public class IntercomConfigActivity extends VOIPConfigAbstractActivity {
             intent.putExtra(INTERCOM, intercom);
             startActivity(intent);
             return true;
+        } else if (id == R.id.action_clone_voip) {
+            PersistenceManager.cloneIntercom(intercom,
+                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
+            NavUtils.navigateUpFromSameTask(IntercomConfigActivity.this);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

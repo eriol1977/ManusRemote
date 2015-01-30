@@ -72,6 +72,11 @@ public class CameraConfigActivity extends VOIPConfigAbstractActivity {
             intent.putExtra(CAMERA, camera);
             startActivity(intent);
             return true;
+        } else if (id == R.id.action_clone_voip) {
+            PersistenceManager.cloneCamera(camera,
+                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
+            NavUtils.navigateUpFromSameTask(CameraConfigActivity.this);
+            return true;
         } else if (id == R.id.action_view_camera) {
             IpCamViewerUtil.viewCamera(camera.getName(), this);
         }

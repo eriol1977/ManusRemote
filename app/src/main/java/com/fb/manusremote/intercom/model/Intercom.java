@@ -8,7 +8,7 @@ import com.fb.manusremote.model.VOIPAdapter;
  */
 public class Intercom extends VOIPAdapter {
 
-    public Intercom(String name, String ip,String port, String username, String password) {
+    public Intercom(String name, String ip, String port, String username, String password) {
         super(name, ip, port, username, password);
     }
 
@@ -20,5 +20,4 @@ public class Intercom extends VOIPAdapter {
     public AdapterKind getKind() {
         return AdapterKind.INTERCOM;
     }
-
 }

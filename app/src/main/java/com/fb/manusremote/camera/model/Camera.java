@@ -20,5 +20,4 @@ public class Camera extends VOIPAdapter {
     public AdapterKind getKind() {
         return AdapterKind.CAMERA;
     }
-
 }

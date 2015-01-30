@@ -17,6 +17,11 @@
         android:icon="@drawable/ic_action"
         android:orderInCategory="100"
         app:showAsAction="always" />
+    <item android:id="@+id/action_clone_voip"
+        android:title="@string/clone"
+        android:icon="@drawable/ic_clone"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
     <item android:id="@+id/action_delete_voip"
         android:title="@string/delete"
         android:icon="@drawable/ic_delete"
