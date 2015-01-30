@@ -51,4 +51,10 @@
     <string name="parameter_reading_error">"Erro na leitura do parâmetro "</string>
     <string name="config_data_loading_failed">Não foi possível carregar os dados de configuração</string>
     <string name="configuration_saved">A configuração foi salva</string>
+    <string name="title_activity_intercom_webview">IntercomWebviewActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="page_loading_error">Erro ao carregar a página</string>
+    <string name="please_wait">Aguarde, por favor</string>
+
 </resources>

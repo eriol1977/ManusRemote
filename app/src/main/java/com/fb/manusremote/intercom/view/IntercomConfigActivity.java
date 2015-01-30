@@ -10,10 +10,10 @@ import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.fb.manusremote.infra.PersistenceManager;
 import com.fb.manusremote.R;
-import com.fb.manusremote.view.VOIPConfigAbstractActivity;
+import com.fb.manusremote.infra.PersistenceManager;
 import com.fb.manusremote.intercom.model.Intercom;
+import com.fb.manusremote.view.VOIPConfigAbstractActivity;
 
 
 public class IntercomConfigActivity extends VOIPConfigAbstractActivity {
@@ -60,14 +60,15 @@ public class IntercomConfigActivity extends VOIPConfigAbstractActivity {
                 final String port = portField.getText().toString();
                 final String username = usernameField.getText().toString();
                 final String password = passwordField.getText().toString();
-                PersistenceManager.updateIntercom(oldName,name, ip, port, username, password,
+                PersistenceManager.updateIntercom(oldName, name, ip, port, username, password,
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
                 NavUtils.navigateUpFromSameTask(IntercomConfigActivity.this);
                 return true;
             }
         } else if (id == R.id.action_config_voip) {
             final Intent intent = new Intent();
-            intent.setClass(this, IntercomRemoteActivity.class);
+            //intent.setClass(this, IntercomRemoteActivity.class);
+            intent.setClass(this, IntercomWebviewActivity.class);
             intent.putExtra(INTERCOM, intercom);
             startActivity(intent);
             return true;
